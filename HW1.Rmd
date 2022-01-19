@@ -1,0 +1,37 @@
+---
+title: "HW1R"
+author: "Rickey Huang"
+date: "1/18/2022"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+## Install and library the package faraway
+#install.packages("faraway")
+library(faraway)
+## Loading the prostate dataset from the package faraway
+data(prostate,package = "faraway")
+## Plot lpsa against lcavol
+plot(prostate$lcavol,prostate$lpsa, xlab = "lcavol", ylab = "lpsa")
+```
+
+```{r}
+## Fit the model of lpsa on lcavol
+lm1 <- lm(prostate$lpsa~prostate$lcavol)
+## Fit the model of lcavol on lpsa
+lm2 <- lm(prostate$lcavol~prostate$lpsa)
+## Show the regression line of the model 1
+lm1
+## Show the regression line of the model 2
+lm2
+```
+
+```{r}
+## Find the intersect of the regression line of the model 2 in the plot
+0.5086/0.7499
+## Plot the regression lines
+plot(prostate$lcavol,prostate$lpsa, xlab = "lcavol", ylab = "lpsa")
+abline(lm1) 
+abline(0.5086/0.7499, 1/0.7499)
+```
+

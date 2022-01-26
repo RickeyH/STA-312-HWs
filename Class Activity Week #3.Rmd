@@ -1,0 +1,50 @@
+---
+title: "Class Activity Week 3"
+author: "Rickey Huang"
+date: "1/26/2022"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(ggplot2)
+```
+
+## 1. Randomly generate data on a line 
+```{r}
+x = runif(100, 5, 15)
+y = rnorm(100,x+2*x^2, 50)
+```
+
+## Plot the data, fit a parabola
+```{r}
+plot(xord,yord)
+ord=order(x)
+xord=x[ord]
+yord=y[ord]
+lm1 <- lm(yord~xord + I(xord^2))
+points(xord, lm1$fitted, type = "l",lwd=3, col = "orange")
+```
+
+## Extract fitted values for y, or our predictions based on the parabola
+
+## Define the model matrix x
+
+## compute hat matrix H and yhat
+
+## Compare lm1$fitted and yhat
+
+## Compare HX and X
+
+## Comapre Hyhat and yhat
+
+## Compare residual and matrix definition of ehat
+
+## Compute the Sum of Squared Estimated Errors
+
+## Compute the Sum of Squres for Regression
+
+## Compute the Sum of Squares Total

@@ -1,0 +1,62 @@
+---
+title: "HW2"
+author: "Rickey Huang"
+date: "1/25/2022"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\section{Question 1}
+
+```{r}
+#install.packages("pracma")
+library(pracma)
+```
+
+
+```{r}
+A = cbind(c(1,0,-1,2),c(1,2,2,0),c(2,4,4,0))
+rref(A)
+```
+
+```{r}
+B = cbind(c(1,2,2,0),c(2,4,4,0),c(1,0,-1,2))
+rref(B)
+```
+
+\section{Question 3}
+```{r}
+library(faraway)
+# Fit the model of theft against age
+lm1 <- lm(chredlin$theft~chredlin$age)
+# Show the result
+lm1
+# Fit the model of theft against age and age^2
+lm2 <- lm(chredlin$theft~chredlin$age + I(chredlin$age^2))
+# Show the result
+lm2
+# Make the scatter plot
+plot(chredlin$theft~chredlin$age, xlab = "age", ylab = "theft")
+# Plot the model 1
+abline(lm1)
+# Plot the model 2
+points(chredlin$age, lm2$fitted, type = "l", col = "blue")
+```
+
+\section{Question 4}
+```{r}
+# Fit the model of theft against age and 2age
+lm3 <- lm(chredlin$theft~chredlin$age + I(2*chredlin$age))
+# Show the result
+lm3
+# Make the scatter plot
+plot(chredlin$theft~chredlin$age, xlab = "age", ylab = "theft")
+# Plot the model 1
+abline(lm1)
+# Plot the model 3
+points(chredlin$age, lm3$fitted, type = "l", col = "red")
+```
+

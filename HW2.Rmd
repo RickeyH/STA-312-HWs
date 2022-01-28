@@ -35,15 +35,20 @@ lm1 <- lm(chredlin$theft~chredlin$age)
 # Show the result
 lm1
 # Fit the model of theft against age and age^2
-lm2 <- lm(chredlin$theft~chredlin$age + I(chredlin$age^2))
+# First find the order of the variable age
+ord=order(chredlin$age)
+# Using this order to order both the theft and the age
+tord=chredlin$theft[ord]
+aord=chredlin$a[ord]
+lm2=lm(tord~aord+I(aord^2))
 # Show the result
 lm2
 # Make the scatter plot
-plot(chredlin$theft~chredlin$age, xlab = "age", ylab = "theft")
+plot(tord~aord, xlab = "age", ylab = "theft")
 # Plot the model 1
 abline(lm1)
 # Plot the model 2
-points(chredlin$age, lm2$fitted, type = "l", col = "blue")
+points(aord,lm2$fitted,type="l",lwd=3,col="blue")
 ```
 
 \section{Question 4}

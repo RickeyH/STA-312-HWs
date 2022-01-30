@@ -39,7 +39,7 @@ lm1
 ord=order(chredlin$age)
 # Using this order to order both the theft and the age
 tord=chredlin$theft[ord]
-aord=chredlin$a[ord]
+aord=chredlin$age[ord]
 lm2=lm(tord~aord+I(aord^2))
 # Show the result
 lm2

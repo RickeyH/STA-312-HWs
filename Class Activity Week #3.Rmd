@@ -21,30 +21,78 @@ y = rnorm(100,x+2*x^2, 50)
 
 ## Plot the data, fit a parabola
 ```{r}
-plot(xord,yord)
 ord=order(x)
 xord=x[ord]
 yord=y[ord]
+plot(xord,yord)
 lm1 <- lm(yord~xord + I(xord^2))
 points(xord, lm1$fitted, type = "l",lwd=3, col = "orange")
 ```
 
 ## Extract fitted values for y, or our predictions based on the parabola
 
+```{r}
+fittedy <- lm1$fitted
+fittedy
+```
+
 ## Define the model matrix x
+
+```{r}
+X = cbind(1,x)
+X
+```
 
 ## compute hat matrix H and yhat
 
+```{r}
+H <- X%*%solve(t(X)%*%X)%*%t(X)
+H
+```
+
 ## Compare lm1$fitted and yhat
+
+```{r}
+yhat <- H%*%y
+## Compare fittedy and yhat
+yhat == fittedy
+```
 
 ## Compare HX and X
 
+```{r}
+HX <- H%*%X
+## Comparison
+HX == X
+```
+
 ## Comapre Hyhat and yhat
+```{r}
+Hyhat <- H%*%yhat
+## Comparison
+Hyhat == yhat
+```
 
 ## Compare residual and matrix definition of ehat
 
+```{r}
+rehat <- y - yhat
+I = diag(100)
+ehat <- (I - H)%*%y
+rehat == ehat
+```
+
 ## Compute the Sum of Squared Estimated Errors
 
+```{r}
+SSE <- t(y)%*%(I-H)%*%y
+SSE
+```
+
 ## Compute the Sum of Squres for Regression
+
+```{r}
+SSR <- (yhat - )
+```
 
 ## Compute the Sum of Squares Total

@@ -1,0 +1,69 @@
+---
+title: "HW#3"
+author: "Rickey Huang"
+date: "2/12/2022"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# Load the data
+library(faraway)
+tg <- faraway::teengamb
+```
+
+\section{Part a}
+
+```{r}
+#Fit the first model
+lm1 <- lm(gamble ~ sex + status + income + verbal, data = tg)
+# Create the design matrices and hat matrices
+X <- model.matrix(lm1)
+X1 <- X[,1]
+H <- X%*%solve(t(X)%*%X)%*%t(X)
+H1 <- X1%*%solve(t(X1)%*%X1)%*%t(X1) 
+# Define y
+y = tg$gamble
+# Compute yhat
+yhat <- H%*%y 
+# Compute ybar
+ybar <- H1%*%y
+# Compute SSR and SST 
+SSR <- t(yhat - ybar)%*%(yhat - ybar)
+SST <- t(y - ybar)%*%(y - ybar)
+# Compute r squared
+rsqrt <- SSR/SST
+rsqrt
+```
+
+\section{Part b}
+
+```{r}
+# Compute the residual
+tg$r = y - yhat
+# Find what is the maximal residual value
+rmax = max(tg$r)
+rmax
+# Find which case has largest residual
+which(tg$r == rmax)
+```
+
+\section{Part c}
+
+```{r}
+# Find the mean of the residuals
+mean(tg$r)
+# Find the merdian of the residuals
+median(tg$r)
+```
+
+\section{Part d}
+
+```{r}
+# Plot the residuals against the fitted values
+plot(tg$r,tg$fitted)
+```
+

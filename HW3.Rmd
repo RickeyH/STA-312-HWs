@@ -67,3 +67,18 @@ median(tg$r)
 plot(tg$r,tg$fitted)
 ```
 
+\section{Part e}
+
+```{r}
+# Plot the residuals against the variable income
+plot(tg$r,tg$income)
+```
+
+\section{Part d}
+
+```{r}
+lm1
+tg
+sumary(lm1)
+```
+

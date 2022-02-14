@@ -56,15 +56,17 @@ which(tg$r == rmax)
 ```{r}
 # Find the mean of the residuals
 mean(tg$r)
+mean(lm1$residuals)
 # Find the merdian of the residuals
 median(tg$r)
+median(lm1$residuals)
 ```
 
 \section{Part d}
 
 ```{r}
 # Plot the residuals against the fitted values
-plot(tg$r,tg$fitted)
+plot(tg$r,lm1$fitted)
 ```
 
 \section{Part e}

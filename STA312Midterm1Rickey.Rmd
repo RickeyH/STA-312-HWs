@@ -1,0 +1,155 @@
+---
+title: "STA312Midterm1Rickey"
+author: "Rickey Huang"
+date: "2/15/2022"
+output: 
+  pdf_document:
+    extra_dependencies: ["flafter"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\section{Question 1}
+\subsection{Part a}
+
+```{r plot1, fig.cap = "\\label{fig:plot1}Plot of taste against Lactic",fig.asp = 0.6}
+# Loading the dataset
+library(faraway)
+cheddar <- faraway::cheddar
+# Plot the taste against lactic
+plot(cheddar$Lactic,cheddar$taste,xlab = "Lactic", ylab = "taste")
+```
+
+\subsection{Part b}
+
+```{r}
+# First find the order of the variable Lactic
+ord=order(cheddar$Lactic)
+# Using this order to order both the taste and the Lactic
+Lord=cheddar$Lactic[ord]
+tord=cheddar$taste[ord]
+# Creating the line of best fit
+lm1 <- lm(tord~Lord)
+# Show the model 1
+lm1
+# Creating the parabola of best fit
+lm2 <- lm(tord~Lord+I(Lord^2))
+# Show the model 2
+lm2
+# Creating the cubic of best fit
+lm3 <- lm(tord~Lord+I(Lord^2)+I(Lord^3))
+# Show the model 3
+lm3
+```
+
+From the R result, we can see that
+\begin{align}
+  lm1: \widehat{taste} &= -29.86 + 37.72 \cdot Lactic\\
+  lm2: \widehat{taste} &= 22.22 - 36.76 \cdot Lactic + 25.51 \cdot {Lactic}^2\\
+  lm3: \widehat{taste} &= 15.88 - 22.79 \cdot Lactic + 15.58 \cdot {Lactic}^2 + 2.28 \cdot {Lactic}^3
+\end{align}
+
+\subsection{Part c}
+
+```{r plot2, fig.cap="\\label{fig:plot2}Plots of three models",fig.asp=0.8}
+plot(tord~Lord, xlab = "Lactic", ylab = "taste")
+abline(lm1,col = "blue")
+points(Lord, lm2$fitted, type = "l", col = "red")
+points(Lord, lm3$fitted, type = "l", col = "green")
+```
+
+\subsection{Part d}
+```{r}
+# Find the model matrix X
+X <- model.matrix(lm2)
+# Define y
+y <- cheddar$taste
+# Compute the betahat
+betahat <- solve(t(X)%*%X)%*%t(X)%*%y
+# Return the betahat
+betahat
+```
+
+From the result, we know that $\hat{\beta} = \left[\begin{smallmatrix}-60.64957\\13378175\\-49.68197\end{smallmatrix}\right]$
+
+\subsection{Part e}
+```{r}
+# Find the hat matrix H
+H <- X%*%solve(t(X)%*%X)%*%t(X)
+# Return the hat matrix
+H
+```
+
+The hat matrix is shown in the R result, which is a huge $30 \times 30$ matrix.
+
+\subsection{Part f}
+
+```{r}
+# Find the SSE
+SSE <- t(y)%*%(diag(30)-H)%*%y
+# Define n and p
+n <- 30
+p <- 3
+# Find an estimate for the sigmasq
+sigmasq <- SSE[1]/(n - p)
+#Return the estimate for sigmasq
+sigmasq
+```
+
+Under Gauss-Markov assumptions, we know that $E(SSE) = {\sigma}^2(n-p)$, then ${\sigma}^2 \approx \tfrac{SSE}{n - p} = 246.0115$.
+
+\subsection{Part g}
+
+```{r}
+# Find variance of betahat using matrices
+varbetahat <- sigmasq*solve(t(X)%*%X)
+# Show the result
+varbetahat
+```
+
+From the result, $Var(\hat{\beta}) = \left[ \begin{smallmatrix}3914.526 & -5445.052 & 1819.5161\\ -5445.052 & 7688.690 & -2601.9369\\ 1819.516 & -2601.937 & 891.1995\end{smallmatrix}\right]$
+
+\subsection{Part h}
+
+```{r}
+# Find the standard error for beta2
+SEbeta2 <- sqrt(7688.690)
+# Show the result
+SEbeta2
+```
+
+From the code above, we can see that $SE_{{\hat{\beta}_2}} = 8768518$.
+
+\section{Question 2}
+
+```{r}
+# Creating the dataset
+x1 <- runif(100,0,10)
+x2 <- runif(100,5,15)
+# Creating two lists each of length 1000 with NA as entries
+sebeta2hats <- vector(mode = "double", length = 1000)
+beta2hats <- vector(mode = "double", length = 1000)
+# Construct sebeta2hats and beta2hats
+#Set seed in order to keep the randomized process unchanged
+set.seed(2022)
+for (i in seq(1,1000)){
+  # Creating 1000 random y for each time of iteration
+  y <- 2*x1-x2+rnorm(100,0,5)
+  # Fitting model with each y
+  modeli <- lm(y~x1+x2)
+  # Storing the betahats into the vector
+  beta2hats[i] <- modeli$coefficient[2]
+  # Finding the covariance matrix for each iteration
+  covi <- vcov(modeli)
+  # Storing the standard error of the beta2hat into the vector
+  sebeta2hats[i] <- sqrt(diag(covi)[2])
+}
+# Finding the standard deviation of the beta2hat list
+sd(beta2hats)
+# Finding the mean of the sebeta2hats list
+mean(sebeta2hats)
+```
+
+From the result, we can see that the standard deviation of $\hat{\beta_2}$ and mean of the $SE_{{\hat{\beta}}_2}$ are almost the same. the standard deviation of $\hat{\beta_2}$ measures how these $1000 \; \hat{\beta_2}$ deviate from the real value of $\beta_2$, while $SE_{\hat{\beta_2}}$ measures the average standard deviation for $each \hat{\beta_2}$ of the $1000$ models. Both of the measures are exploring how our estimated $\hat{\beta_2}$ is away from the real value, but they calculate the standard deviation for the whole population and for each individual separately. This makes the two values be almost the same, since, in a large population like $1000$ case, the trend is the consistent.

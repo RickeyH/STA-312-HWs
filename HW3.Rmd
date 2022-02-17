@@ -66,14 +66,14 @@ median(lm1$residuals)
 
 ```{r}
 # Plot the residuals against the fitted values
-plot(tg$r,lm1$fitted)
+plot(lm1$fitted,tg$r,xlab = "fitted values", ylab = "residuals")
 ```
 
 \section{Part e}
 
 ```{r}
 # Plot the residuals against the variable income
-plot(tg$r,tg$income)
+plot(tg$income,tg$r,xlab = "income", ylab = "residuals")
 ```
 
 \section{Part d}

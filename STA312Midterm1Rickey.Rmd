@@ -65,14 +65,14 @@ points(Lord, lm3$fitted, type = "l", col = "green")
 # Find the model matrix X
 X <- model.matrix(lm2)
 # Define y
-y <- cheddar$taste
+y <- tord
 # Compute the betahat
 betahat <- solve(t(X)%*%X)%*%t(X)%*%y
 # Return the betahat
 betahat
 ```
 
-From the result, we know that $\hat{\beta} = \left[\begin{smallmatrix}-60.64957\\13378175\\-49.68197\end{smallmatrix}\right]$
+From the result, we know that $\hat{\beta} = \left[\begin{smallmatrix}22.22495\\-36.76068\\25.51065\end{smallmatrix}\right]$
 
 \subsection{Part e}
 ```{r}
@@ -98,7 +98,7 @@ sigmasq <- SSE[1]/(n - p)
 sigmasq
 ```
 
-Under Gauss-Markov assumptions, we know that $E(SSE) = {\sigma}^2(n-p)$, then ${\sigma}^2 \approx \tfrac{SSE}{n - p} = 246.0115$.
+Under Gauss-Markov assumptions, we know that $E(SSE) = {\sigma}^2(n-p)$, then ${\sigma}^2 \approx \tfrac{SSE}{n - p} = 136.4015$.
 
 \subsection{Part g}
 
@@ -109,18 +109,18 @@ varbetahat <- sigmasq*solve(t(X)%*%X)
 varbetahat
 ```
 
-From the result, $Var(\hat{\beta}) = \left[ \begin{smallmatrix}3914.526 & -5445.052 & 1819.5161\\ -5445.052 & 7688.690 & -2601.9369\\ 1819.516 & -2601.937 & 891.1995\end{smallmatrix}\right]$
+From the result, $Var(\hat{\beta}) = \left[ \begin{smallmatrix}2170.416 & -3019.018 & 1008.8339\\ -3019.018 & 4263.008 & -1442.6485\\ 1008.834 & -1442.649 & 494.1271\end{smallmatrix}\right]$
 
 \subsection{Part h}
 
 ```{r}
 # Find the standard error for beta2
-SEbeta2 <- sqrt(7688.690)
+SEbeta2 <- sqrt(4246.008)
 # Show the result
 SEbeta2
 ```
 
-From the code above, we can see that $SE_{{\hat{\beta}_2}} = 8768518$.
+From the code above, we can see that $SE_{{\hat{\beta}_2}} = 65.1614$.
 
 \section{Question 2}
 

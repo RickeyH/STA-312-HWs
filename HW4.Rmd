@@ -1,0 +1,18 @@
+---
+title: "HW4"
+author: "Rickey Huang"
+date: "3/2/2022"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\section{Question1}
+
+\subsection{Part a}
+
+```{r}
+
+```

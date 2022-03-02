@@ -14,5 +14,6 @@ knitr::opts_chunk$set(echo = TRUE)
 \subsection{Part a}
 
 ```{r}
+library(faraway)
 
 ```

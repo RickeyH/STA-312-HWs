@@ -15,5 +15,24 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 library(faraway)
-
+data(chredlin)
+zips <- as.integer(rownames(chredlin))
 ```
+
+\subsection{Part b}
+
+```{r}
+# Fit two models
+lmO <- lm(zips~theft + fire, data = chredlin)
+lmo <- lm(zips~fire, data = chredlin)
+```
+
+
+\subsection{Part c}
+
+```{r}
+# Show the result of the previous step
+summary(lmO)
+summary(lmo)
+```
+

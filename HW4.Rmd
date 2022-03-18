@@ -36,3 +36,133 @@ summary(lmO)
 summary(lmo)
 ```
 
+\subsection{Part d}
+
+```{r}
+# Find the degree of freedom
+n <- length(zips)
+p <- 3
+df <- n-p
+#  Find the critical t-score
+t <- qt(0.975,df)
+t
+# Find the standad errors using matrices
+X <- model.matrix(lmO)
+sigmasq <- t(lmO$fitted-zips)%*%(lmO$fitted-zips)/df
+sigmasq <- sigmasq[1]
+varbetahat <- sigmasq*solve(t(X)%*%X)
+sebetahatcoeff <- (varbetahat^(0.5))[1,1]
+sebetahattheft <- (varbetahat^(0.5))[2,2]
+sebetahatfire <- (varbetahat^(0.5))[3,3]
+# Construct the 95% confidence intervals
+cicoeff <- c(-1,1)*t*sebetahatcoeff + lmO$coeff[1]
+citheft <- c(-1,1)*t*sebetahattheft + lmO$coeff[2]
+cifire <- c(-1,1)*t*sebetahatfire + lmO$coeff[3]
+cicoeff
+citheft
+cifire
+# Verify my results using the confint command in R
+confint(lmO,1,level=0.95)
+confint(lmO,2,level=0.95)
+confint(lmO,3,level=0.95)
+```
+
+\subsection{Part e}
+
+```{r}
+# Find the t-scores for each parameter
+tcoeff <- (lmO$coeff[1] - 0)/sebetahatcoeff
+ttheft <- (lmO$coeff[2] - 0)/sebetahattheft
+tfire <- (lmO$coeff[3] - 0)/sebetahatfire
+tcoeff
+ttheft
+tfire
+# Find the p-values of each parameter
+pvalcoeff <- 2*pt(tcoeff,df)
+pvaltheft <- 2*pt(ttheft,df)
+pvalfire <- 2*pt(tfire,df)
+pvalcoeff
+pvaltheft
+pvalfire
+# Since the pvalcoeff is bigger than 0, we want to use 2(1-pt(t,df)) to compute its p-value
+pvalcoeff <- 2*(1 - pt(tcoeff,df))
+pvalcoeff
+# Using summary command in R to test my results
+summary(lmO)
+```
+
+\subsection{Part g}
+
+```{r}
+# Find SSE for both models
+SSEO <- (t(lmO$residuals)%*%lmO$residuals)[1]
+SSEo <- (t(lmo$residuals)%*%lmo$residuals)[1]
+q <- dim(model.matrix(lmo))[2]
+# Find the F-statistic
+Fstat <- ((SSEo-SSEO)/(p-q))/(SSEO/(n-p))
+Fstat
+# Find the p-value
+pvalF <- 1-pf(Fstat,p-q,n-p)
+pvalF
+# Find the Fstar
+Fstar <- qf(0.95,p-q,n-p)
+Fstar
+```
+
+\subsection{Part h}
+
+```{r}
+# Fit the trival model omega0
+lmo0 <- lm(zips~1)
+# Find the SSE for this model
+SSEo0 <- (t(lmo0$residuals)%*%lmo0$residuals)[1]
+q0 <- dim(model.matrix(lmo0))[2]
+# Find the F-statistic
+Fstat0 <- ((SSEo0-SSEO)/(p-q0))/(SSEO/(n-p))
+Fstat0
+# Find the p-value
+pvalF0 <- 1-pf(Fstat0,p-q0,n-p)
+pvalF0
+# Find the Fstar
+Fstar0 <- qf(0.95,p-q0,n-p)
+Fstar0
+```
+
+\subsection{j}
+
+```{r}
+# First plot the estimate
+plot(lmo$coeff[1],lmo$coeff[2], xlab = "intercept", ylab = "beta_fire",xlim=c(60630,60650), ylim=c(-2,0))
+# Construct the rectangle
+vlow <- confint(lmo)[1]
+vhigh <- confint(lmo)[3]
+hlow <- confint(lmo)[2]
+hhigh <- confint(lmo)[4]
+# Draw the lines
+abline(v = vhigh,col = 'red')
+abline(v = vlow,col = 'red')
+abline(hlow,0, col = 'steelblue')
+abline(hhigh,0, col = 'steelblue')
+```
+
+\subsection{Part k}
+
+```{r}
+# Install the package "ellipse"
+# (Uncomment the next line if it is not installed before)
+#install.packages("ellipse")
+library(ellipse)
+ellipse(lmo)
+plot(ellipse(lmo),type = "l",xlim=c(60630,60650), ylim=c(-2,0))
+points(lmo$coeff[1],lmo$coeff[2])
+vlow <- confint(lmo)[1]
+vhigh <- confint(lmo)[3]
+hlow <- confint(lmo)[2]
+hhigh <- confint(lmo)[4]
+# Draw the lines
+abline(v = vhigh,col = 'red')
+abline(v = vlow,col = 'red')
+abline(hlow,0, col = 'steelblue')
+abline(hhigh,0, col = 'steelblue')
+```
+

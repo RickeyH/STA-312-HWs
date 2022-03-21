@@ -11,8 +11,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 \section{Question 1}
 
+\subsection{Part a}
+
 ```{r}
-simgasq <- 215/(20-3)
+sigmasq <- 215/(20-3)
 XTXinv <- cbind(c(2.5,-2,2),c(-2,0.8,3),c(2,3,0.5))
 betahat <- c(2.8,10.5,-5.4)
 tstar <- 1.98
@@ -31,5 +33,26 @@ CI3 <- c(-1,1)*tstar*SEbetahat3 + betahat3
 CI1
 CI2
 CI3
+```
+
+\subsection{Part b}
+
+```{r}
+df <- 20-3
+# Find the t-scores
+t1 <- betahat1/SEbetahat1
+t2 <- betahat2/SEbetahat2
+t3 <- betahat3/SEbetahat3
+pval1 <- 2*pt(t1,df)
+pval2 <- 2*pt(t2,df)
+pval3 <- 2*pt(t3,df)
+#pval1
+#pval2
+#pval3
+pval1 <- 2*(1-pt(t1,df))
+pval2 <- 2*(1-pt(t2,df))
+pval1
+pval2
+pval3
 ```
 

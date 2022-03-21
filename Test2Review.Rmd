@@ -1,0 +1,35 @@
+---
+title: "Test2Review"
+author: "Rickey Huang"
+date: "3/21/2022"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\section{Question 1}
+
+```{r}
+simgasq <- 215/(20-3)
+XTXinv <- cbind(c(2.5,-2,2),c(-2,0.8,3),c(2,3,0.5))
+betahat <- c(2.8,10.5,-5.4)
+tstar <- 1.98
+betahat1 <- betahat[1]
+betahat2 <- betahat[2]
+betahat3 <- betahat[3]
+SEbetahat1 <- sqrt(sigmasq*XTXinv[1,1])
+SEbetahat2 <- sqrt(sigmasq*XTXinv[2,2])
+SEbetahat3 <- sqrt(sigmasq*XTXinv[3,3])
+SEbetahat1
+SEbetahat2
+SEbetahat3
+CI1 <- c(-1,1)*tstar*SEbetahat1 + betahat1
+CI2 <- c(-1,1)*tstar*SEbetahat2 + betahat2
+CI3 <- c(-1,1)*tstar*SEbetahat3 + betahat3
+CI1
+CI2
+CI3
+```
+

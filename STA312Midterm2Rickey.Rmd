@@ -9,3 +9,41 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+\section{Question 1}
+
+*Permutation Tests (using the prostate data from the faraway package):*
+
+```{r}
+library(faraway)
+prostate <- faraway::prostate
+```
+
+
+\subsection{Part a}
+
+*Conduct a $5\%$ significance permutation test to determine whether $y=lpsa$ is correlated*
+*with $x=lcp$.*
+
+The following code helps us to conduct a permutation test on the varaible lcp
+
+```{r, warning  = FALSE}
+lm1 <- lm(lpsa~lcp, data = prostate)
+# Compute the original F statistic
+forg <- summary(lm1)$fstat
+# Initialize the p-value
+pval=0
+# Create the for loop
+for (i in 1:4000){
+  # Fit the model with the permuting
+  lmnew <- lm(lpsa~sample(lcp), data = prostate)
+  # Find out whether the F stistic is bigger
+  if(summary(lmnew)$fstat > forg){
+    # if bigger, add it to the p value
+    pval=pval+1/4000
+  }
+}
+# return the p-value
+pval
+```
+
+From the $p$-value the permutation test gave us which is $0$, we know that *lpsa* is correlated to *lcp*.

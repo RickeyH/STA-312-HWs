@@ -53,6 +53,97 @@ Fstar
 \section{Question 2}
 
 ```{r}
+# Using the same data set and models, conduct a permutation test for the same hypothe-
+# ses. How do your p-values compare?
+# Compute the original F statistic
+forg <- summary(lmO)$fstat
+# Initialize the p-value
+pval2=0
+# Create the for loop
+for (i in 1:4000){
+  # Fit the model with the permuting
+  lmnew <- lm(gamble~sample(sex)+income, data = teengamb)
+  # Find out whether the F stistic is bigger
+  if(summary(lmnew)$fstat > forg){
+    # if bigger, add it to the p value
+    pval=pval+1/4000
+  }
+}
+# return the p-value
+pval
+```
 
+\section{Question 3}
+
+\subsection{Part c}
+
+```{r}
+library(faraway)
+teengamb <- faraway::teengamb
+```
+
+```{r}
+# Fit both models
+lmO2 <- lm(gamble~verbal + status +income, data = teengamb)
+lmo2 <- lm(gamble~income,data = teengamb)
+# Compute the SSE of the both models
+SSEO2 <- (t(lmO2$residuals)%*%lmO2$residuals)[1]
+SSEo2 <- (t(lmo2$residuals)%*%lmo2$residuals)[1]
+# Define n, p, and q
+n2 <- dim(model.matrix(lmo2))[1]
+p2 <- dim(model.matrix(lmO2))[2]
+q2 <- dim(model.matrix(lmo2))[2]
+# Compute the F statistic
+Fstat2 <- ((SSEo2-SSEO2)/(p2-q2))/(SSEO2/(n2-p2))
+Fstat2
+```
+
+\subsection{Part d}
+
+```{r}
+# Compute the p value
+pval3 <- 1 - pf(Fstat2,p2-q2,n2-p2)
+pval3
+```
+
+\subsection{Part e}
+
+```{r}
+# Compute the Fstar
+Fstar2 <- qf(0.95,p2-q2,n2-p2)
+Fstar2
+```
+
+\section{Question 5}
+
+\subsection{Part a}
+
+```{r}
+# Fit the model
+lm1 <- lm(gamble~sex+income, data = teengamb)
+intsex <- confint(lm1,2,level=0.95)
+intsex
+```
+
+\subsection{Part b}
+
+```{r}
+# Construct a 95% confidence level boot-strapped interval for the coefficient of sex.
+# Find the residuals and fitted value of the original model
+resids <- lm1$residuals
+fit <- lm1$fitted
+# Construct a vector with 4000 entries
+betasexs <- numeric(4000)
+# Construct a for loop to find the boot-strapped interval
+for (i in 1:4000){
+  # Randomize the residuals to create 4000 random response variables with errors
+  fitboot <- fit + sample(resids,rep = TRUE)
+  # Fit new models with 4000 error terms
+  lmboot <- lm(fitboot ~ sex + income, data = teengamb)
+  # Store the betas for the variable sex
+  betasexs[i] <- lmboot$coeff[2]
+}
+# Find the 0.025 and 0.975 quantile of the betas to construct a boot-strapped confidence interval
+cbind(quantile(betasexs,0.025),quantile(betasexs,0.975))
 ```
 

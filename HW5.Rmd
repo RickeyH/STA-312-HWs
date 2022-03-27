@@ -1,0 +1,58 @@
+---
+title: "STA32HW5"
+author: "Rickey Huang"
+date: "3/27/2022"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\section{Question 1}
+
+\subsection{Part c}
+
+```{r}
+library(faraway)
+teengamb <- faraway::teengamb
+```
+
+```{r}
+# Fit both models
+lmO <- lm(gamble~sex+income, data = teengamb)
+lmo <- lm(gamble~income,data = teengamb)
+# Compute the SSE of the both models
+SSEO <- (t(lmO$residuals)%*%lmO$residuals)[1]
+SSEo <- (t(lmo$residuals)%*%lmo$residuals)[1]
+# Define n, p, and q
+n <- dim(model.matrix(lmo))[1]
+p <- dim(model.matrix(lmO))[2]
+q <- dim(model.matrix(lmo))[2]
+# Compute the F statistic
+Fstat <- ((SSEo-SSEO)/(p-q))/(SSEO/(n-p))
+Fstat
+```
+
+\subsection{Part d}
+
+```{r}
+# Compute the p value
+pval <- 1 - pf(Fstat,p-q,n-p)
+pval
+```
+
+\subsection{Part e}
+
+```{r}
+# Compute the Fstar
+Fstar <- qf(0.95,p-q,n-p)
+Fstar
+```
+
+\section{Question 2}
+
+```{r}
+
+```
+

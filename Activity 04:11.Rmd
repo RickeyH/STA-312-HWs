@@ -1,0 +1,90 @@
+---
+title: "Class Activity 411"
+author: "Rickey Huang"
+date: "4/11/2022"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+data <- read.csv(file = "houses.csv")
+head(data)
+```
+
+\section{Question 1}
+\subsection{Part a}
+
+*Fit a model Price ~ Living.Area*
+
+```{r}
+lm1 <- lm(Price~Living.Area, data = data)
+```
+
+\subsection{Part b}
+
+*Plot ehat vs. fitted*
+
+```{r}
+plot(lm1$residuals,lm1$fitted)
+```
+
+\subsection{Part c}
+
+*Make a residual histogram*
+
+```{r}
+hist(lm1$residuals)
+```
+
+\subsection{Part d}
+
+*Make a QQ-plot*
+
+```{r}
+e1 <- lm1$residuals
+e1 <- sort(e1)
+n <- dim(model.matrix(lm1))[1]
+Q <- qnorm(seq(1:n)/(n+1))
+sigmahat <- sqrt(sum(e1^2)/(n-2))
+z <- e1/sigmahat
+plot(Q,z)
+abline(0,1)
+```
+
+\subsection{Part e}
+
+*Can you see any bad problem individuals?*
+
+```{r}
+
+```
+
+\subsection{Part f}
+
+*What happens if you remove them?*
+
+\section{Question 2}
+\subsection{Part a}
+
+*Create a vector of internally studentized residuals*
+
+\subsection{Part b}
+
+*Creaate a vector of externally studentized residuals*
+
+\subsection{Part c}
+
+*Create a vector of Cook's Distance*
+
+\subsection{Part d}
+
+*Do the large values correspond to the data points you thought were bad from last time?*
+
+\subsection{Part e}
+
+*What happends if you remove them?*
+
+

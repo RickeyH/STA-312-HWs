@@ -27,7 +27,7 @@ lm1 <- lm(Price~Living.Area, data = data)
 
 *Plot ehat vs. fitted*
 
-```{r}
+```{r,fig.asp=0.6}
 plot(lm1$residuals,lm1$fitted)
 ```
 
@@ -35,7 +35,7 @@ plot(lm1$residuals,lm1$fitted)
 
 *Make a residual histogram*
 
-```{r}
+```{r,fig.asp=0.6}
 hist(lm1$residuals)
 ```
 
@@ -43,7 +43,7 @@ hist(lm1$residuals)
 
 *Make a QQ-plot*
 
-```{r}
+```{r,fig.asp=0.55}
 e1 <- lm1$residuals
 e1 <- sort(e1)
 n <- dim(model.matrix(lm1))[1]
@@ -58,18 +58,24 @@ abline(0,1)
 
 *Can you see any bad problem individuals?*
 
-```{r}
 
-```
 
 \subsection{Part f}
 
 *What happens if you remove them?*
 
+```{r}
+
+```
+
 \section{Question 2}
 \subsection{Part a}
 
 *Create a vector of internally studentized residuals*
+
+```{r}
+
+```
 
 \subsection{Part b}
 
